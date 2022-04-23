@@ -36,7 +36,7 @@ public class Movement : MonoBehaviour
     }
 
     // FixedUpdate is called in given interval
-    void Update()
+    void FixedUpdate()
     {
         ProcessInput();
     }    

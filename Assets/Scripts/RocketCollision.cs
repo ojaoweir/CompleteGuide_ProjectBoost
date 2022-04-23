@@ -6,15 +6,20 @@ using UnityEngine.SceneManagement;
 public class RocketCollision : MonoBehaviour
 {
     // Editor Variables
-    #pragma warning disable 0649
- 
-     
-    #pragma warning restore 0649    
+#pragma warning disable 0649
+    [SerializeField]
+    private float sceneLoadDelay;
+    [SerializeField]
+    private AudioClip levelFinished;
+    [SerializeField]
+    private AudioClip playerCrash;
+#pragma warning restore 0649
     // Component references 
-     
+
     // Public variables 
-     
+
     // Private variables 
+    private bool sceneInTransition;
      
     // Getters 
      
@@ -23,7 +28,7 @@ public class RocketCollision : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        sceneInTransition = false;
     }
 
     // FixedUpdate is called in given interval
@@ -34,22 +39,57 @@ public class RocketCollision : MonoBehaviour
     // Public Methods 
     void OnCollisionEnter(Collision collision)
     {
+        if (sceneInTransition) return;
         switch(collision.gameObject.tag)
         {
             case UnityTagConstants.FRIENDLY:
                 Debug.Log("IsFriendly");
                 break;
             case UnityTagConstants.FINISH:
-                int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
-                if (nextScene == SceneManager.sceneCountInBuildSettings) nextScene = 0;
-                SceneManager.LoadScene(nextScene);
-
+                PlayerFinish();
                 break;
             default:
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                PlayerCrash();
                 break;
         }
     }
+
+    private void PlayerFinish()
+    {
+        sceneInTransition = true;
+        GetComponent<Movement>().enabled = false;
+        var audioSource = GetComponent<AudioSource>();
+        audioSource.Stop();
+        audioSource.loop = false;
+        audioSource.PlayOneShot(levelFinished);
+        Invoke("LoadNextLevel", sceneLoadDelay);
+
+    }
+    private void PlayerCrash()
+    {
+        sceneInTransition = true;
+        GetComponent<Movement>().enabled = false;
+        var audioSource = GetComponent<AudioSource>();
+        audioSource.Stop();
+        audioSource.loop = false;
+        audioSource.PlayOneShot(playerCrash);
+        Invoke("ReloadLevel", sceneLoadDelay);
+
+    }
+
+    private void LoadNextLevel()
+    {
+        int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
+        if (nextScene == SceneManager.sceneCountInBuildSettings) nextScene = 0;
+        SceneManager.LoadScene(nextScene);
+    }
+        private void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+    }
+
+
 
     // Private Methods    
 
