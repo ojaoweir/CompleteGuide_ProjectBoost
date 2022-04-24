@@ -13,6 +13,10 @@ public class RocketCollision : MonoBehaviour
     private AudioClip levelFinished;
     [SerializeField]
     private AudioClip playerCrash;
+    [SerializeField]
+    private ParticleSystem levelFinishedParticles;
+    [SerializeField]
+    private ParticleSystem playerCrashParticles;
 #pragma warning restore 0649
     // Component references 
 
@@ -62,6 +66,7 @@ public class RocketCollision : MonoBehaviour
         audioSource.Stop();
         audioSource.loop = false;
         audioSource.PlayOneShot(levelFinished);
+        levelFinishedParticles.Play();
         Invoke("LoadNextLevel", sceneLoadDelay);
 
     }
@@ -73,6 +78,7 @@ public class RocketCollision : MonoBehaviour
         audioSource.Stop();
         audioSource.loop = false;
         audioSource.PlayOneShot(playerCrash);
+        playerCrashParticles.Play();
         Invoke("ReloadLevel", sceneLoadDelay);
 
     }

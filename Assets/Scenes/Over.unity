@@ -485,18 +485,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2085507568, guid: efeb876a32444974a800bc1679710cb4, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 2411e80e579a94b4c925776849aaf41f, type: 3}
-    - target: {fileID: 5906889059467884226, guid: efeb876a32444974a800bc1679710cb4, type: 3}
-      propertyPath: playerCrash
-      value: 
-      objectReference: {fileID: 8300000, guid: aeab95e358cc5a04a9739bddd5d46543, type: 3}
-    - target: {fileID: 5906889059467884226, guid: efeb876a32444974a800bc1679710cb4, type: 3}
-      propertyPath: levelFinished
-      value: 
-      objectReference: {fileID: 8300000, guid: dc56008ff0d9ed046a6fa0f0b9e648a2, type: 3}
     - target: {fileID: 5906889059900939317, guid: efeb876a32444974a800bc1679710cb4, type: 3}
       propertyPath: m_Name
       value: Rocket
