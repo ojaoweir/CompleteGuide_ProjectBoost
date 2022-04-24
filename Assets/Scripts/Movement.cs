@@ -12,6 +12,10 @@ public class Movement : MonoBehaviour
     private float rotateVelocity;
     [SerializeField]
     private Transform centerOfMass;
+    [SerializeField]
+    private EngineParticlesController thrustParticles;
+    [SerializeField]
+    private EngineParticlesController rotateParticles;
 
 
 #pragma warning restore 0649
@@ -49,10 +53,15 @@ public class Movement : MonoBehaviour
 
     private void Rotate(int rotateDirection)
     {
-        if (rotateDirection == 0) return;
+        if (rotateDirection == 0)
+        {
+            rotateParticles.StopParticles();
+            return;
+        }
         rb.freezeRotation = true;
         transform.Rotate(rotateDirection * rotateVelocity * Time.deltaTime * Vector3.forward);
         rb.freezeRotation = false;
+        rotateParticles.PlayParticles();
     }
 
     private void Thrust()
@@ -85,6 +94,7 @@ public class Movement : MonoBehaviour
             if (!audioSource.isPlaying)
             {
                 audioSource.Play();
+                thrustParticles.PlayParticles();
             }
             Thrust();
         }
@@ -93,6 +103,7 @@ public class Movement : MonoBehaviour
             if (audioSource.isPlaying)
             {
                 audioSource.Pause();
+                thrustParticles.StopParticles();
             }
         }
     }
